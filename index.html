@@ -1,0 +1,151 @@
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<div class="card">
+  <input id="task"type="text"placeholder="Input task">
+  <button onclick="addTask()">Add</button>
+  <p id="error1"></p>
+  <ul id="list"></ul>
+  <p id="result"></p>
+</div>
+<style>
+  
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: #f1f5f9;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card {
+  background: white;
+  width: 90%;
+  max-width: 400px;
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #1e293b;
+}
+
+input {
+  width: 72%;
+  padding: 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 7px;
+  outline: none;
+}
+
+input:focus {
+  border-color: #6366f1;
+}
+
+button {
+  padding: 12px 15px;
+  border: none;
+  border-radius: 7px;
+  background: #6366f1;
+  color: white;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #4f46e5;
+}
+
+#error1 {
+  color: #ef4444;
+  font-size: 13px;
+  margin-top: 8px;
+}
+
+ul {
+  list-style: none;
+  margin-top: 20px;
+}
+
+li {
+  background: #f8fafc;
+  padding: 12px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  color: #334155;
+}
+
+li button {
+  background: #ef4444;
+  padding: 6px 11px;
+}
+
+li button:hover {
+  background: #dc2626;
+}
+
+#result {
+  text-align: center;
+  margin-top: 15px;
+  padding: 10px;
+  background: #eef2ff;
+  color: #4338ca;
+  border-radius: 8px;
+  font-weight: bold;
+}
+
+</style>
+<script>
+  const tasks=[{ text: "Learn JS", done: false }];
+  function addTask(){
+    const inputTask=document.getElementById("task").value;
+    const error1=document.getElementById("error1");
+    if(inputTask===""){
+      return error1.textContent="Please enter a task";
+    }
+    tasks.push({ text: inputTask, done: false });
+    error1.textContent="";
+    document.getElementById("task").value="";
+    renderList()
+  }
+  function renderList(){
+   const list=document.getElementById("list");
+    let html="";
+    let total=0;
+    for(let i=0;i<tasks.length;i++){
+      let style="";
+      if(tasks[i].done===true){
+        style+="text-decoration:line-through;"
+        total+=1;
+      }
+      html+=`<li onclick="toggleTask(${i})"><span style="${style}">${tasks[i].text}</span> <button onclick="deleteTask(${i}, event)">X</button></li>`;
+      
+  }
+    document.getElementById("result").textContent=`${total}/${tasks.length}`
+    list.innerHTML=html;
+  }
+renderList();
+  function deleteTask(index, event){
+    event.stopPropagation();
+    tasks.splice(index,1);
+    renderList();
+  }
+  function toggleTask(index){
+    
+    tasks[index].done=!tasks[index].done;
+    renderList();
+  }
+  
+</script>
+  
