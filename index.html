@@ -107,7 +107,11 @@ li button:hover {
 
 </style>
 <script>
-  const tasks=[{ text: "Learn JS", done: false }];
+  const saved=localStorage.getItem("tasks");
+  const tasks=saved?JSON.parse(saved):[{text:"Learn Js",done:false}];
+  function saveTask(){
+    localStorage.setItem("tasks",JSON.stringify(tasks));
+  }
   function addTask(){
     const inputTask=document.getElementById("task").value;
     const error1=document.getElementById("error1");
@@ -134,6 +138,7 @@ li button:hover {
   }
     document.getElementById("result").textContent=`${total}/${tasks.length}`
     list.innerHTML=html;
+    saveTask();
   }
 renderList();
   function deleteTask(index, event){
